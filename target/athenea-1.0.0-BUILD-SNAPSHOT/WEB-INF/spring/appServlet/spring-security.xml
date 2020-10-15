@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+          
+   <security:http auto-config='true'>
+    <security:intercept-url pattern="/login" access="permiteAll" />
+    <security:access-denied-handler error-page="/my-error-page" />
+<!--     <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" /> -->
+    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+    <security:intercept-url pattern="/views/select" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+    <security:intercept-url pattern="/views/crear" access="hasAnyRole('ROLE_ADMIN')" />
+    <security:logout logout-url="/logout" logout-success-url="/login?out=1"
+        delete-cookies="JSESSIONID" invalidate-session="true" />
+  </security:http>
+   
+   <bean id="myUserDetailsService" class="com.athenea.miapp.filter.MyUserDetailsService"/>
+
+	<security:authentication-manager>
+	    <security:authentication-provider
+	      user-service-ref="myUserDetailsService" >
+	        <security:password-encoder ref="passwordEncoder">
+	        </security:password-encoder>
+	    </security:authentication-provider>
+	</security:authentication-manager>
+	
+	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+    
+</beans>
