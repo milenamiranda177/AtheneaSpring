@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -39,6 +40,8 @@ public class UserMaster implements Serializable {
 	    private String login;
 	    private String password;
 	    private String fullname;
+	    @Column(name = "tipoidentificacion")
+	    private String tipoidentificacion;
 	    
 	    @Column(name = "enabled")
 	    private Integer enabled = 1;
@@ -49,6 +52,8 @@ public class UserMaster implements Serializable {
 	    )
 	    private List<UserRole> authorities = new ArrayList<UserRole>();
 	    
+	    @Transient
+	    private String token;
 
 		public Integer getId()
 	    {
@@ -108,12 +113,31 @@ public class UserMaster implements Serializable {
 			authorities.add(role);
 			role.setUserId(this);
 		}
+		
+	public String getTipoidentificacion() {
+			return tipoidentificacion;
+		}
+
+		public void setTipoidentificacion(String tipoidentificacion) {
+			this.tipoidentificacion = tipoidentificacion;
+		}
+		
+
+	public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
+		}
 
 	public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("Login: " + login);
         return buffer.toString();
     }
+	
+	
 	
 	
 }

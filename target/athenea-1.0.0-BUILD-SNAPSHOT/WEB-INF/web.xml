@@ -42,15 +42,39 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+<!-- 	<filter> -->
+<!-- 		<filter-name>springSecurityFilterChain</filter-name> -->
+<!-- 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy -->
+<!-- 		</filter-class> -->
+<!-- 	</filter> -->
+
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>springSecurityFilterChain</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+
 	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
-		</filter-class>
+	<filter-name>AuthenticationFilter</filter-name>
+	<filter-class>com.athenea.miapp.filter.AuthenticationFilter</filter-class>
+	<init-param>
+	<param-name>TokenCliente</param-name>
+	<param-value>a24eaaf5a0b19fa12817a5220f298770</param-value>
+	</init-param>
 	</filter>
 
 	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
+	<filter-name>AuthenticationFilter</filter-name>
+	<url-pattern>/restapi/core/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>cors</filter-name>
+		<filter-class>com.athenea.miapp.filter.CORSFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>cors</filter-name>
+		<url-pattern>/restapi/*</url-pattern>
 	</filter-mapping>
 
 </web-app>

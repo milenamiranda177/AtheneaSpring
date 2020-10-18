@@ -1,5 +1,6 @@
 package com.athenea.miapp.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.athenea.miapp.domain.Role;
 import com.athenea.miapp.domain.UserMaster;
+import com.athenea.miapp.domain.dto.UserMasterDTO;
 
 import org.springframework.security.core.userdetails.User;
 import com.athenea.miapp.repository.UserDao;
@@ -44,6 +46,11 @@ public class UserService implements IUserService {
 	@Override
 	public List<Role> getRoles() {
 		return userDao.getRoles();
+	}
+	
+	@Override
+	public UserMaster verifyLogin(UserMasterDTO user) throws NoSuchAlgorithmException {
+		return userDao.verifyLogin(user);
 	}
     
     

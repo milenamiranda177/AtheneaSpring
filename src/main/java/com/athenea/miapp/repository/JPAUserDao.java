@@ -1,15 +1,13 @@
 package com.athenea.miapp.repository;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.athenea.miapp.domain.Role;
 import com.athenea.miapp.domain.UserMaster;
 import com.athenea.miapp.domain.UserRole;
+import com.athenea.miapp.domain.dto.UserMasterDTO;
+import com.athenea.miapp.utils.MD5Converter;
 
 @Repository(value = "userDao")
 public class JPAUserDao implements UserDao {
@@ -27,6 +27,7 @@ public class JPAUserDao implements UserDao {
     private EntityManager em = null;
     
     private List<UserRole> listRoles;
+    private static final String TOKENPARAM ="TokenCliente";
 
     /*
      * Sets the entity manager.
@@ -74,6 +75,19 @@ public class JPAUserDao implements UserDao {
 
         return list;
     }
+    
+    @Override
+	public UserMaster verifyLogin(UserMasterDTO user) throws NoSuchAlgorithmException {
+		 List<UserMaster> listUser = em.createQuery("SELECT u FROM UserMaster u where u.login = :login AND u.password= :password AND u.tipoidentificacion = :tipo")
+                .setParameter("login", user.getIdentificacion()).setParameter("password", user.getPassword())
+                .setParameter("tipo", user.getTipoidentificacion()).getResultList();
+		 if (!listUser.isEmpty()) {
+			String token = MD5Converter.ENCODEMD5(TOKENPARAM);
+			listUser.get(0).setToken(token);
+			 return listUser.get(0);
+		 }
+		return null;
+	}
     
     
 

@@ -1,0 +1,7 @@
+{
+  "registrar_usuario":true,
+  "registrar_producto":true,
+  "historico_usuario":false,
+  "historico_cuentas":false,
+  "reportes":false
+}
