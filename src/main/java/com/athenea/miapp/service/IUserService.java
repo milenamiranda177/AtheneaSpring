@@ -17,5 +17,8 @@ public interface IUserService extends Serializable {
     public List<UserMaster> getUsers();
     public List<Role> getRoles();
     public UserMaster verifyLogin(UserMasterDTO user) throws NoSuchAlgorithmException;
+    public UserMaster getUser(Integer idUser);
+    public UserMaster getUserByIdentificacion(String identificacion);
+    public String deleteUser(Integer idUser);
 
 }

@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +43,42 @@ public class UserRest {
 	public @ResponseBody UserMaster login(@RequestBody UserMasterDTO user, HttpServletRequest request ) throws NoSuchAlgorithmException {
 		logger.info("Start getAllUsers");
 		return service.verifyLogin(user);
+	}
+	
+	@RequestMapping(value = UserURIConstants.GET_USER, method = RequestMethod.GET)
+	public @ResponseBody UserMaster getUser(@PathVariable("id") Integer userId) {
+		logger.info("Start getUser ");
+		return service.getUser(userId);
+	}
+	
+	@RequestMapping(value = UserURIConstants.SAVE_USER, method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity saveUser(@RequestBody UserMaster user) {
+		logger.info("Start saveUser ");
+		UserMaster master = service.getUserByIdentificacion(user.getLogin());
+		if (master == null ) {
+			user.addAuthorities(user.getAuthorities().get(0).getAuthority());
+			user.getAuthorities().remove(0);
+			service.createUser(user);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	@RequestMapping(value = UserURIConstants.SAVE_USER, method = RequestMethod.PUT)
+	public @ResponseBody ResponseEntity updateSave(@RequestBody UserMaster user) {
+		if (!user.getAuthorities().isEmpty()) {
+			user.addAuthorities(user.getAuthorities().get(0).getAuthority());
+			user.getAuthorities().remove(0);
+		}
+		service.createUser(user);
+		return ResponseEntity.ok().build();
+	}
+	
+	@RequestMapping(value = UserURIConstants.DELETE_USER, method = RequestMethod.DELETE)
+	public @ResponseBody String deleteProduct(@PathVariable("id") Integer idUser) {
+		service.deleteUser(idUser);
+		return "";
 	}
 	
 }

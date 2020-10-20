@@ -38,7 +38,6 @@ public class UserRole implements Serializable {
 	    @JoinColumn(name = "user_id")
 	    private UserMaster userId;
 	    
-	    private String permission;
 
 		public Integer getId()
 	    {
@@ -65,14 +64,6 @@ public class UserRole implements Serializable {
 	
 		public void setAuthority(String authority) {
 		        this.authority = authority;
-		}
-
-		public String getPermission() {
-			return permission;
-		}
-
-		public void setPermission(String permission) {
-			this.permission = permission;
 		}
 		
 		

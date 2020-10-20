@@ -1,5 +1,7 @@
 package com.athenea.miapp.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,9 +15,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity()
+@Entity
 @Table(name="product")
-public class Product {
+public class Product implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -24,9 +26,14 @@ public class Product {
 	@Column(name = "product_id")
 	private Integer productId;
 	
+	@Column(name = "type_product")
 	private String typeProduct;
 	
+	@Column(name = "user_id")
     private Integer userIdProduct;
+	
+	@Column(name = "valor")
+    private String valor;
 	
 	private Integer enabled = 1;
 
@@ -63,6 +70,22 @@ public class Product {
 	public void setEnabled(Integer enabled) {
 		this.enabled = enabled;
 	}
+
+	public String getValor() {
+		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+	
+	public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("valor: " + valor);
+        return buffer.toString();
+    }
+	
+	
 	
 	
 	

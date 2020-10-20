@@ -21,9 +21,6 @@ public class UserService implements IUserService {
     @Autowired
     private UserDao userDao;
 
-    public void setProductDao(UserDao productDao) {
-        this.userDao = productDao;
-    }
     private List<UserMaster> users;
 
 	@Override
@@ -52,6 +49,25 @@ public class UserService implements IUserService {
 	public UserMaster verifyLogin(UserMasterDTO user) throws NoSuchAlgorithmException {
 		return userDao.verifyLogin(user);
 	}
+
+	@Override
+	public UserMaster getUserByIdentificacion(String identificacion) {
+		return userDao.getUserByIdentificacion(identificacion);
+	}
+
+	@Override
+	public UserMaster getUser(Integer idUser) {
+		return userDao.getUser(idUser);
+		 
+	}
+	
+	@Override
+	public String deleteUser(Integer idUser) {
+		userDao.deleteUser(idUser);
+		return "";
+	}
+	
+	
     
     
 }

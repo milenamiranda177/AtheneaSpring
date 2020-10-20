@@ -3,16 +3,17 @@ package com.athenea.miapp.domain.dto;
 public class UserMasterDTO {
 
 	
-	public String identificacion;
+	public String login;
 	public String tipoidentificacion;
 	public String password;
 	
 	
-	public String getIdentificacion() {
-		return identificacion;
+	
+	public String getLogin() {
+		return login;
 	}
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 	public String getTipoidentificacion() {
 		return tipoidentificacion;

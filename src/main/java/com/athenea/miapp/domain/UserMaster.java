@@ -22,122 +22,124 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
-
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class UserMaster implements Serializable {
 
-	 private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-	 	@Id
-		@GeneratedValue(strategy= GenerationType.IDENTITY)
-		@GenericGenerator(name = "native",strategy = "native")
-	 	@Column(name = "user_id")
-	    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GenericGenerator(name = "native", strategy = "native")
+	@Column(name = "user_id")
+	private Integer id;
 
-	    @Column(name = "username")
-	    private String login;
-	    private String password;
-	    private String fullname;
-	    @Column(name = "tipoidentificacion")
-	    private String tipoidentificacion;
-	    
-	    @Column(name = "enabled")
-	    private Integer enabled = 1;
-	   
-	    @OneToMany(
-	            fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-	            mappedBy = "userId"
-	    )
-	    private List<UserRole> authorities = new ArrayList<UserRole>();
-	    
-	    @Transient
-	    private String token;
+	@Column(name = "username")
+	private String login;
+	private String password;
+	private String fullname;
+	@Column(name = "tipoidentificacion")
+	private String tipoidentificacion;
+	@Column(name = "cellnumber")
+	private String cellnumber;
 
-		public Integer getId()
-	    {
-	        return id;
-	    }
+	@Column(name = "enabled")
+	private Integer enabled = 1;
 
-	    public void setId(Integer id)
-	    {
-	        this.id = id;
-	    } 
-    
-		public String getLogin() {
-			return login;
-		}
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "userId")
+	private List<UserRole> authorities = new ArrayList<UserRole>();
 
-		public void setLogin(String login){
-			this.login = login;
-		}
+	@Transient
+	private String token;
 
-		public String getPassword() {
-			return password;
-		}
+	public Integer getId() {
+		return id;
+	}
 
-		public void setPassword(String password) throws NoSuchAlgorithmException {
-			this.password = password;
-		}
-		
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) throws NoSuchAlgorithmException {
+		this.password = password;
+	}
+
 	public Integer getEnabled() {
-			return enabled;
-		}
+		return enabled;
+	}
 
-		public void setEnabled(Integer enabled) {
-			this.enabled = enabled;
-		}
-		
-		
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getCellnumber() {
+		return cellnumber;
+	}
+
+	public void setCellnumber(String cellnumber) {
+		this.cellnumber = cellnumber;
+	}
 
 	public String getFullname() {
-			return fullname;
-		}
+		return fullname;
+	}
 
-		public void setFullname(String fullname) {
-			this.fullname = fullname;
-		}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
 
 	public List<UserRole> getAuthorities() {
-			return authorities;
-		}
+		return authorities;
+	}
 
-		public void setAuthorities(List<UserRole> authorities) {
-			this.authorities = authorities;
-		}
-		
-		public void addAuthorities(String authority) {
+	public void setAuthorities(List<UserRole> authorities) {
+		this.authorities = authorities;
+	}
+
+	public void addAuthorities(String authority) {
+		if (authority != null) {
 			UserRole role = new UserRole();
-	        role.setAuthority(authority);
+			role.setAuthority(authority);
 			authorities.add(role);
 			role.setUserId(this);
+		} else {
+			this.authorities = null;
 		}
 		
-	public String getTipoidentificacion() {
-			return tipoidentificacion;
-		}
+	}
 
-		public void setTipoidentificacion(String tipoidentificacion) {
-			this.tipoidentificacion = tipoidentificacion;
-		}
-		
+	public String getTipoidentificacion() {
+		return tipoidentificacion;
+	}
+
+	public void setTipoidentificacion(String tipoidentificacion) {
+		this.tipoidentificacion = tipoidentificacion;
+	}
 
 	public String getToken() {
-			return token;
-		}
+		return token;
+	}
 
-		public void setToken(String token) {
-			this.token = token;
-		}
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("Login: " + login);
-        return buffer.toString();
-    }
-	
-	
-	
-	
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("Login: " + login);
+		return buffer.toString();
+	}
+
 }
